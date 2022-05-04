@@ -24,10 +24,38 @@ public class Main {
             this.penaltyCosts = payslipList[6];
             this.toBePaid = payslipList[7];
         }
+
+        public void totalScoreCorrectTest() {
+            double result;
+            if (this.recalculation >= 0) {
+                result = (beginningOfThePeriod + subscriptionServices + accrued + recalculation +
+                                compensation + penaltyCosts) - paid;
+                System.out.println("In total you have to pay: " + result + "\\" + toBePaid);
+            } else if (this.recalculation <= 0) {
+                result = (beginningOfThePeriod + subscriptionServices + accrued + compensation +
+                        penaltyCosts - recalculation) - paid;
+                System.out.println("In total you have to pay: " + result + "\\" + toBePaid);
+            }
+        }
+
+        String[] titlesOfScores = {"1. At the beginning of the period: ", "2. Paid: ", "3. Subscriber services: ",
+                                    "4. Accrued: ", "5. Recalculation: ", "6. Compensation: ",
+                                    "7. Penalty\\Legal costs: ", "8. To be paid: "};
         public void printScoresTest() {
             String repeated = repeatString("-", 60);
-            String format = "%-40s%20.2f%n";
+            String firstFormat = "%s%n%-40s%20.2f%n%s%n";
+            String format = "%-40s%20.2f%n%s%n";
 
+            System.out.printf(firstFormat, repeated, titlesOfScores[0], beginningOfThePeriod, repeated);
+            System.out.printf(format, titlesOfScores[1], paid, repeated);
+            System.out.printf(format, titlesOfScores[2], subscriptionServices, repeated);
+            System.out.printf(format, titlesOfScores[3], accrued, repeated);
+            System.out.printf(format, titlesOfScores[4], recalculation, repeated);
+            System.out.printf(format, titlesOfScores[5], compensation, repeated);
+            System.out.printf(format, titlesOfScores[6], penaltyCosts, repeated);
+            System.out.printf(format, titlesOfScores[7], toBePaid, repeated);
+
+            /* Первая версия
             System.out.println(repeated);
             System.out.printf(format, "At the beginning of the period: ", beginningOfThePeriod);
             System.out.println(repeated);
@@ -45,6 +73,7 @@ public class Main {
             System.out.println(repeated);
             System.out.printf(format, "To be paid: ", toBePaid);
             System.out.println(repeated);
+             */
 
         }
     }
@@ -63,5 +92,6 @@ public class Main {
         double[] payslip = {980.54, 200.00, 0.0, 191.52, 31.68, 0.0, 0.0, 1003.74};
         ScoresList water = new ScoresList(payslip);
         water.printScoresTest();
+        water.totalScoreCorrectTest();
     }
 }
