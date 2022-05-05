@@ -12,6 +12,7 @@ public class Main {
     }
 
     public static class ScoresList {
+        // Добавить функцию расчета суммы необходимой оплаты с помощью тарифа.
         double beginningOfThePeriod, paid, subscriptionServices, accrued,
                 recalculation, compensation, penaltyCosts, toBePaid;
         public ScoresList (double[] payslipList) {
@@ -23,6 +24,18 @@ public class Main {
             this.compensation = payslipList[5];
             this.penaltyCosts = payslipList[6];
             this.toBePaid = payslipList[7];
+        }
+
+        double tariff2022 = 250.00;
+        public void tariffCalculation(int oldScores, int newScores) {
+            double result = newScores - oldScores;
+            if (result < tariff2022) {
+                System.out.print("Tariff result: " + (result * 1.44));
+            } else if (result > tariff2022) {
+                double firstTariff= 250.0;
+                result -= 250.00;
+                System.out.print("Tariff result: " + ((firstTariff * 1.44) + (result * 1.68)));
+            }
         }
 
         public void totalScoreCorrectTest() {
@@ -41,11 +54,12 @@ public class Main {
         String[] titlesOfScores = {"1. At the beginning of the period: ", "2. Paid: ", "3. Subscriber services: ",
                                     "4. Accrued: ", "5. Recalculation: ", "6. Compensation: ",
                                     "7. Penalty\\Legal costs: ", "8. To be paid: "};
-        public void printScoresTest() {
+        public void printScores() {
             String repeated = repeatString("-", 60);
             String firstFormat = "%s%n%-40s%20.2f%n%s%n";
             String format = "%-40s%20.2f%n%s%n";
 
+            // Попробовать реализовать вывод в консоль с помощью цикла.
             System.out.printf(firstFormat, repeated, titlesOfScores[0], beginningOfThePeriod, repeated);
             System.out.printf(format, titlesOfScores[1], paid, repeated);
             System.out.printf(format, titlesOfScores[2], subscriptionServices, repeated);
@@ -54,26 +68,6 @@ public class Main {
             System.out.printf(format, titlesOfScores[5], compensation, repeated);
             System.out.printf(format, titlesOfScores[6], penaltyCosts, repeated);
             System.out.printf(format, titlesOfScores[7], toBePaid, repeated);
-
-            /* Первая версия
-            System.out.println(repeated);
-            System.out.printf(format, "At the beginning of the period: ", beginningOfThePeriod);
-            System.out.println(repeated);
-            System.out.printf(format, "Paid: " , paid);
-            System.out.println(repeated);
-            System.out.printf(format, "Subscriber services: ", subscriptionServices);
-            System.out.println(repeated);
-            System.out.printf(format, "Accrued: ", accrued);
-            System.out.println(repeated);
-            System.out.printf(format, "Recalculation: ", recalculation);
-            System.out.println(repeated);
-            System.out.printf(format, "Compensation: ", compensation);
-            System.out.println(repeated);
-            System.out.printf(format, "Penalty\\Legal costs: ", penaltyCosts);
-            System.out.println(repeated);
-            System.out.printf(format, "To be paid: ", toBePaid);
-            System.out.println(repeated);
-             */
 
         }
     }
@@ -91,7 +85,8 @@ public class Main {
     public static void main(String[] args) {
         double[] payslip = {980.54, 200.00, 0.0, 191.52, 31.68, 0.0, 0.0, 1003.74};
         ScoresList water = new ScoresList(payslip);
-        water.printScoresTest();
+        water.printScores();
         water.totalScoreCorrectTest();
+        water.tariffCalculation(10, 888);
     }
 }
