@@ -1,6 +1,5 @@
 public class Main {
     public static class ScoresList {
-        // Добавить функцию расчета суммы необходимой оплаты с помощью тарифа.
         String monthOfReceipt;
         double beginningOfThePeriod, paid, subscriptionServices, accrued,
                 recalculation, compensation, penaltyCosts, toBePaid;
