@@ -4,6 +4,7 @@ public class Main {
         String monthOfReceipt;
         double beginningOfThePeriod, paid, subscriptionServices, accrued,
                 recalculation, compensation, penaltyCosts, toBePaid;
+        double[] titlesOfScoresValue;
         public ScoresList (String month, double[] payslipList) {
             this.monthOfReceipt = month;
             this.beginningOfThePeriod = payslipList[0];
@@ -14,6 +15,7 @@ public class Main {
             this.compensation = payslipList[5];
             this.penaltyCosts = payslipList[6];
             this.toBePaid = payslipList[7];
+            this.titlesOfScoresValue = payslipList;
         }
 
         public void tariffCalculation(int oldIndication, int newIndication) {
@@ -23,12 +25,10 @@ public class Main {
             double result = newIndication - oldIndication;
 
             if (result < minimumTariff) {
-                //System.out.print("Tariff result: " + (result * 1.44));
                 System.out.printf(correctTariffFormat, repeated, "Tariff result: " , (result * 1.44), repeated);
             } else if (result > minimumTariff) {
                 double firstTariff= 250.0;
                 result -= 250.00;
-                //System.out.print("Tariff result: " + ((firstTariff * 1.44) + (result * 1.68)));
                 System.out.printf(correctTariffFormat, repeated, "Tariff result: ",
                         ((firstTariff * 1.44) + (result * 1.68)), repeated);
             }
@@ -42,37 +42,31 @@ public class Main {
             if (this.recalculation >= 0) {
                 result = (beginningOfThePeriod + subscriptionServices + accrued + recalculation +
                                 compensation + penaltyCosts) - paid;
-                //System.out.println("In total you have to pay: " + result + "\\" + toBePaid);
                 System.out.printf(correctTestFormat, repeated, "In total you have to pay: ",
                         result, "On the receipt: ", toBePaid, repeated);
             } else if (this.recalculation <= 0) {
                 result = (beginningOfThePeriod + subscriptionServices + accrued + compensation +
                         penaltyCosts - recalculation) - paid;
-                //System.out.println("In total you have to pay: " + result + "\\" + toBePaid);
                 System.out.printf(correctTestFormat, repeated, "In total you have to pay: ",
                         result, "On the receipt: ", toBePaid, repeated);
             }
         }
 
-        String[] titlesOfScores = {"1. At the beginning of the period: ", "2. Paid: ", "3. Subscriber services: ",
+        String[] titlesOfScoresText = {"1. At the beginning of the period: ", "2. Paid: ", "3. Subscriber services: ",
                                     "4. Accrued: ", "5. Recalculation: ", "6. Compensation: ",
                                     "7. Penalty\\Legal costs: ", "8. To be paid: "};
+
         public void printScores() {
             String repeated = repeatString("-", 60);
             String firstFormat = "%s%n%30s%n%s%n";
             String format = "%-40s%20.2f%n%s%n";
 
-            // Попробовать реализовать вывод в консоль с помощью цикла.
-            System.out.printf(firstFormat, repeated, monthOfReceipt, repeated);
-            System.out.printf(format, titlesOfScores[0], beginningOfThePeriod, repeated);
-            System.out.printf(format, titlesOfScores[1], paid, repeated);
-            System.out.printf(format, titlesOfScores[2], subscriptionServices, repeated);
-            System.out.printf(format, titlesOfScores[3], accrued, repeated);
-            System.out.printf(format, titlesOfScores[4], recalculation, repeated);
-            System.out.printf(format, titlesOfScores[5], compensation, repeated);
-            System.out.printf(format, titlesOfScores[6], penaltyCosts, repeated);
-            System.out.printf(format, titlesOfScores[7], toBePaid, repeated);
-
+            for (int i = 0; i < 8; i++) {
+                if (i == 0) {
+                    System.out.printf(firstFormat, repeated, monthOfReceipt, repeated);
+                }
+                System.out.printf(format, titlesOfScoresText[i], titlesOfScoresValue[i], repeated);
+            }
         }
     }
 
