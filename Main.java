@@ -18,7 +18,7 @@ public class Main {
         }
 
         public void tariffCalculation(int oldIndication, int newIndication) {
-            String repeated = repeatString("-", 60);
+            String repeated = Utils.repeatString("-", 60);
             String correctTariffFormat = "%s%n%-40s%20.2f%n%s%n";
             double minimumTariff = 250.00;
             double result = newIndication - oldIndication;
@@ -34,7 +34,7 @@ public class Main {
         }
 
         public void totalScoreCorrectTest() {
-            String repeated = repeatString("-", 60);
+            String repeated = Utils.repeatString("-", 60);
             String correctTestFormat = "%s%n%-40s%20.2f%n%-40s%20.2f%n%-40s%n";
             double result;
 
@@ -56,7 +56,7 @@ public class Main {
                                     "7. Penalty\\Legal costs: ", "8. To be paid: "};
 
         public void printScores() {
-            String repeated = repeatString("-", 60);
+            String repeated = Utils.repeatString("-", 60);
             String firstFormat = "%s%n%30s%n%s%n";
             String format = "%-40s%20.2f%n%s%n";
 
@@ -69,22 +69,12 @@ public class Main {
         }
     }
 
-    public static String repeatString(String s, int count) {
-        StringBuilder r = new StringBuilder();
-        int i = 0;
-        while (i < count) {
-            r.append(s);
-            i++;
-        }
-        return r.toString();
-    }
-
     public static void main(String[] args) {
         double[] payslip = {980.54, 200.00, 0.0, 191.52, 31.68, 0.0, 0.0, 1003.74};
         ScoresList water = new ScoresList( "March 2022",payslip);
 
         water.printScores();
         water.totalScoreCorrectTest();
-        water.tariffCalculation(260, 320);
+        water.tariffCalculation(20190, 20320);
     }
 }
