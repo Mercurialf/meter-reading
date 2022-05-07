@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Main {
     public static class ScoresList {
         String monthOfReceipt;
@@ -76,5 +78,9 @@ public class Main {
         water.printScores();
         water.totalScoreCorrectTest();
         water.tariffCalculation(20190, 20320);
+
+        double[] list1 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        Utils.getDoubleFromUser(list1);
+        System.out.println("List = " + Arrays.toString(list1));
     }
 }
