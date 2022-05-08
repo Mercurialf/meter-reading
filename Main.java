@@ -53,10 +53,6 @@ public class Main {
             }
         }
 
-        String[] titlesOfScoresText = {"1. At the beginning of the period: ", "2. Paid: ", "3. Subscriber services: ",
-                                    "4. Accrued: ", "5. Recalculation: ", "6. Compensation: ",
-                                    "7. Penalty\\Legal costs: ", "8. To be paid: "};
-
         public void printScores() {
             String repeated = Utils.repeatString("-", 60);
             String firstFormat = "%s%n%30s%n%s%n";
@@ -66,21 +62,26 @@ public class Main {
                 if (i == 0) {
                     System.out.printf(firstFormat, repeated, monthOfReceipt, repeated);
                 }
-                System.out.printf(format, titlesOfScoresText[i], titlesOfScoresValue[i], repeated);
+                System.out.printf(format, Config.titlesOfScoresText[i], titlesOfScoresValue[i], repeated);
             }
         }
     }
 
     public static void main(String[] args) {
-        double[] payslip = {980.54, 200.00, 0.0, 191.52, 31.68, 0.0, 0.0, 1003.74};
-        ScoresList water = new ScoresList( "March 2022",payslip);
+        //double[] testingIndication = {980.54, 200.00, 0.0, 191.52, 31.68, 0.0, 0.0, 1003.74};
 
+        /*
         water.printScores();
         water.totalScoreCorrectTest();
         water.tariffCalculation(20190, 20320);
+        */
 
-        double[] list1 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        Utils.getDoubleFromUser(list1);
-        System.out.println("List = " + Arrays.toString(list1));
+        String indicationSeason = Utils.getStringFromUser();
+        double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+
+        Utils.getDoubleFromUser(indication);
+
+        ScoresList waterTest = new ScoresList(indicationSeason, indication);
+        waterTest.printScores();
     }
 }

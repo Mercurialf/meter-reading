@@ -14,9 +14,33 @@ public class Utils {
         Scanner in = new Scanner(System.in);
 
         for (int i = 0; i < 8; i++) {
-            System.out.println("Input a double: ");
+            if (i == 0) {
+                System.out.println(repeatString("-", 60));
+            }
+            System.out.print(Config.titlesOfScoresText[i]);
             double num = in.nextDouble();
             scoreList[i] = num;
+
+            if (i == 7) {
+                System.out.println(repeatString("-", 60));
+            }
         }
+    }
+
+    public static String getStringFromUser() {
+        String repeat = repeatString("-", 60);
+        String firstForm = "%s%n%s";
+        String lastForm = "%s%n";
+
+        System.out.printf(firstForm, repeat, "Enter Month and Year: ");
+        Scanner in = new Scanner(System.in);
+        String result = in.nextLine();
+
+        if (result.equals("")) {
+            result = "Default";
+        }
+
+        System.out.printf(lastForm, repeat);
+        return result;
     }
 }
