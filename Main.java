@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Main {
     public static class ScoresList {
         String monthOfReceipt;
@@ -78,10 +76,11 @@ public class Main {
 
         String indicationSeason = Utils.getStringFromUser();
         double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-
         Utils.getDoubleFromUser(indication);
 
         ScoresList waterTest = new ScoresList(indicationSeason, indication);
         waterTest.printScores();
+
+        Files.createFile();
     }
 }
