@@ -65,15 +65,9 @@ public class Main {
         }
     }
 
+
     public static void main(String[] args) {
-        //double[] testingIndication = {980.54, 200.00, 0.0, 191.52, 31.68, 0.0, 0.0, 1003.74};
-
-        /*
-        water.printScores();
-        water.totalScoreCorrectTest();
-        water.tariffCalculation(20190, 20320);
-        */
-
+        
         String indicationSeason = Utils.getStringFromUser();
         double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         Utils.getDoubleFromUser(indication);
@@ -82,5 +76,6 @@ public class Main {
         waterTest.printScores();
 
         Files.createFile();
+        Files.readFile();
     }
 }
