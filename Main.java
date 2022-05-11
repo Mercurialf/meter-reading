@@ -1,4 +1,3 @@
-import java.util.Scanner;
 public class Main {
     public static class ScoresList {
         String monthOfReceipt;
@@ -66,41 +65,20 @@ public class Main {
         }
     }
 
-    public static class MainMenu {
-
-        public static void printWelcome() {
-            String repeat = Utils.repeatString("-", 60);
-            System.out.println(repeat + "\nWelcome 'Meter Reading'!");
-            System.out.println("Enter character to jump:");
-
-            String format = "%-40s%20d%n";
-            System.out.printf(format, "1. Print Scores:", 1);
-            System.out.printf(format, "2. Total score correct test:", 2);
-            System.out.printf(format, "3. Tariff calculation:", 3);
-
-            int i = 0;
-            while (i == 0) {
-                Scanner in = new Scanner(System.in);
-                int choice = in.nextInt();
-
-                // ??? ? ????????
-            }
-        }
-    }
 
 
     public static void main(String[] args) {
 
-        //String indicationSeason = Utils.getStringFromUser();
-        //double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        //Utils.getDoubleFromUser(indication);
+        String indicationSeason = Utils.getStringFromUser();
+        double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        Utils.getDoubleFromUser(indication);
 
-        //ScoresList waterTest = new ScoresList(indicationSeason, indication);
-        //waterTest.printScores();
+        ScoresList waterTest = new ScoresList(indicationSeason, indication);
+        waterTest.printScores();
 
-        //Files.createFile();
-        //Files.readFile();
+        Files.createFile();
+        Files.readFile();
 
-        MainMenu.printWelcome();
+
     }
 }
