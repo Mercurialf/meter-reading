@@ -28,11 +28,11 @@ public class Utils {
     }
 
     public static String getStringFromUser() {
-        String repeat = repeatString("-", 60);
+        String repeatChar = repeatString("-", 60);
         String firstForm = "%s%n%s";
         String lastForm = "%s%n";
 
-        System.out.printf(firstForm, repeat, "Enter Month and Year: ");
+        System.out.printf(firstForm, repeatChar, "Enter Month and Year: ");
         Scanner in = new Scanner(System.in);
         String result = in.nextLine();
 
@@ -40,13 +40,12 @@ public class Utils {
             result = "Default";
         }
 
-        System.out.printf(lastForm, repeat);
+        System.out.printf(lastForm, repeatChar);
         return result;
     }
 
     public static int getIntegerFromUser() {
         Scanner in = new Scanner(System.in);
-        int num = in.nextInt();
-        return (num = in.nextInt());
+        return in.nextInt();
     }
 }

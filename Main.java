@@ -4,6 +4,7 @@ public class Main {
         double beginningOfThePeriod, paid, subscriptionServices, accrued,
                 recalculation, compensation, penaltyCosts, toBePaid;
         double[] titlesOfScoresValue;
+        String repeatChar = Utils.repeatString("-", 60);
         public ScoresList (String month, double[] payslipList) {
             this.monthOfReceipt = month;
             this.beginningOfThePeriod = payslipList[0];
@@ -18,49 +19,49 @@ public class Main {
         }
 
         public void tariffCalculation(int oldIndication, int newIndication) {
-            String repeated = Utils.repeatString("-", 60);
+
             String correctTariffFormat = "%s%n%-40s%20.2f%n%s%n";
             double minimumTariff = 250.00;
             double result = newIndication - oldIndication;
 
             if (result < minimumTariff) {
-                System.out.printf(correctTariffFormat, repeated, "Tariff result: " , (result * 1.44), repeated);
+                System.out.printf(correctTariffFormat, repeatChar, "Tariff result: " , (result * 1.44), repeatChar);
             } else if (result > minimumTariff) {
                 double firstTariff= 250.0;
                 result -= 250.00;
-                System.out.printf(correctTariffFormat, repeated, "Tariff result: ",
-                        ((firstTariff * 1.44) + (result * 1.68)), repeated);
+                System.out.printf(correctTariffFormat, repeatChar, "Tariff result: ",
+                        ((firstTariff * 1.44) + (result * 1.68)), repeatChar);
             }
         }
 
         public void totalScoreCorrectTest() {
-            String repeated = Utils.repeatString("-", 60);
+
             String correctTestFormat = "%s%n%-40s%20.2f%n%-40s%20.2f%n%-40s%n";
             double result;
 
             if (this.recalculation >= 0) {
                 result = (beginningOfThePeriod + subscriptionServices + accrued + recalculation +
                                 compensation + penaltyCosts) - paid;
-                System.out.printf(correctTestFormat, repeated, "In total you have to pay: ",
-                        result, "On the receipt: ", toBePaid, repeated);
+                System.out.printf(correctTestFormat, repeatChar, "In total you have to pay: ",
+                        result, "On the receipt: ", toBePaid, repeatChar);
             } else if (this.recalculation <= 0) {
                 result = (beginningOfThePeriod + subscriptionServices + accrued + compensation +
                         penaltyCosts - recalculation) - paid;
-                System.out.printf(correctTestFormat, repeated, "In total you have to pay: ",
-                        result, "On the receipt: ", toBePaid, repeated);
+                System.out.printf(correctTestFormat, repeatChar, "In total you have to pay: ",
+                        result, "On the receipt: ", toBePaid, repeatChar);
             }
         }
 
         public void printScores() {
-            String repeated = Utils.repeatString("-", 60);
+
             String firstFormat = "%s%n%30s%n%s%n";
             String format = "%-40s%20.2f%n%s%n";
 
             for (int i = 0; i < 8; i++) {
                 if (i == 0) {
-                    System.out.printf(firstFormat, repeated, monthOfReceipt, repeated);
+                    System.out.printf(firstFormat, repeatChar, monthOfReceipt, repeatChar);
                 }
-                System.out.printf(format, Config.titlesOfScoresText[i], titlesOfScoresValue[i], repeated);
+                System.out.printf(format, Config.titlesOfScoresText[i], titlesOfScoresValue[i], repeatChar);
             }
         }
 
@@ -70,18 +71,23 @@ public class Main {
     }
 
     public static class MainMenu {
-        String repeat = Utils.repeatString("-", 60);
+        String repeatChar = Utils.repeatString("-", 60);
         int choice = 0;
         ScoresList water;
 
         public void printWelcome() {
 
-            System.out.println(repeat + "\nWelcome to Meter Reading!\n" +repeat);
+            System.out.println(repeatChar + "\nWelcome to Meter Reading!\n" + repeatChar);
             while (choice != 9) {
-                System.out.println("Enter indication: 1");
-                System.out.println("Print indication: 2");
+
+                System.out.println(repeatChar);
+                for (int i = 0; i < Config.mainMenuOptions.length; i++) {
+                    System.out.println(Config.mainMenuOptions[i] + " : " + i);
+                }
+
                 choice = Utils.getIntegerFromUser();
 
+                /*
                 if (choice == 1) {
                     String indicationSeason = Utils.getStringFromUser();
                     double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
@@ -92,6 +98,33 @@ public class Main {
                 if (choice == 2) {
                     water.printScores();
                 }
+                if (choice == 3) {
+                    water.totalScoreCorrectTest();
+                }
+                if (choice == 4) {
+                    water.tariffCalculation(0,0);
+                }
+                if (choice == 5) {
+                    water.writeReadingsToFile();
+                }
+                if (choice == 6) {
+                    Files.readFile();
+                }
+                */
+
+                switch (choice) {
+                    case 1 -> {
+                        String indicationSeason = Utils.getStringFromUser();
+                        double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+                        Utils.getDoubleFromUser(indication);
+                        water = new ScoresList(indicationSeason, indication);
+                    }
+                    case 2 -> water.printScores();
+                    case 3 -> water.totalScoreCorrectTest();
+                    case 4 -> water.tariffCalculation(0, 0);
+                    case 5 -> water.writeReadingsToFile();
+                    case 6 -> Files.readFile();
+                }
             }
         }
     }
@@ -99,15 +132,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //String indicationSeason = Utils.getStringFromUser();
-        //double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        //Utils.getDoubleFromUser(indication);
+        /*
+        String indicationSeason = Utils.getStringFromUser();
+        double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        Utils.getDoubleFromUser(indication);
 
-        //ScoresList waterTest = new ScoresList(indicationSeason, indication);
-        //waterTest.printScores();
+        ScoresList waterTest = new ScoresList(indicationSeason, indication);
+        waterTest.printScores();
 
-        //waterTest.writeReadingsToFile();
-        //Files.readFile();
+        waterTest.writeReadingsToFile();
+        Files.readFile();
+         */
+
         MainMenu start = new MainMenu();
         start.printWelcome();
 
