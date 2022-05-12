@@ -63,6 +63,10 @@ public class Main {
                 System.out.printf(format, Config.titlesOfScoresText[i], titlesOfScoresValue[i], repeated);
             }
         }
+
+        public void writeReadingsToFile () {
+            Files.createFile(monthOfReceipt, titlesOfScoresValue);
+        }
     }
 
 
@@ -76,7 +80,7 @@ public class Main {
         ScoresList waterTest = new ScoresList(indicationSeason, indication);
         waterTest.printScores();
 
-        Files.createFile();
+        waterTest.writeReadingsToFile();
         Files.readFile();
 
 
