@@ -69,20 +69,47 @@ public class Main {
         }
     }
 
+    public static class MainMenu {
+        String repeat = Utils.repeatString("-", 60);
+        int choice = 0;
+        ScoresList water;
+
+        public void printWelcome() {
+
+            System.out.println(repeat + "\nWelcome to Meter Reading!\n" +repeat);
+            while (choice != 9) {
+                System.out.println("Enter indication: 1");
+                System.out.println("Print indication: 2");
+                choice = Utils.getIntegerFromUser();
+
+                if (choice == 1) {
+                    String indicationSeason = Utils.getStringFromUser();
+                    double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+                    Utils.getDoubleFromUser(indication);
+
+                    water = new ScoresList(indicationSeason, indication);
+                }
+                if (choice == 2) {
+                    water.printScores();
+                }
+            }
+        }
+    }
 
 
     public static void main(String[] args) {
 
-        String indicationSeason = Utils.getStringFromUser();
-        double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        Utils.getDoubleFromUser(indication);
+        //String indicationSeason = Utils.getStringFromUser();
+        //double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        //Utils.getDoubleFromUser(indication);
 
-        ScoresList waterTest = new ScoresList(indicationSeason, indication);
-        waterTest.printScores();
+        //ScoresList waterTest = new ScoresList(indicationSeason, indication);
+        //waterTest.printScores();
 
-        waterTest.writeReadingsToFile();
-        Files.readFile();
-
+        //waterTest.writeReadingsToFile();
+        //Files.readFile();
+        MainMenu start = new MainMenu();
+        start.printWelcome();
 
     }
 }
