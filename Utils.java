@@ -43,4 +43,10 @@ public class Utils {
         System.out.printf(lastForm, repeat);
         return result;
     }
+
+    public static int getIntegerFromUser() {
+        Scanner in = new Scanner(System.in);
+        int num = in.nextInt();
+        return (num = in.nextInt());
+    }
 }
