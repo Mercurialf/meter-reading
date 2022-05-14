@@ -87,31 +87,6 @@ public class Main {
 
                 choice = Utils.getIntegerFromUser();
 
-                /*
-                if (choice == 1) {
-                    String indicationSeason = Utils.getStringFromUser();
-                    double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-                    Utils.getDoubleFromUser(indication);
-
-                    water = new ScoresList(indicationSeason, indication);
-                }
-                if (choice == 2) {
-                    water.printScores();
-                }
-                if (choice == 3) {
-                    water.totalScoreCorrectTest();
-                }
-                if (choice == 4) {
-                    water.tariffCalculation(0,0);
-                }
-                if (choice == 5) {
-                    water.writeReadingsToFile();
-                }
-                if (choice == 6) {
-                    Files.readFile();
-                }
-                */
-
                 switch (choice) {
                     case 1 -> {
                         String indicationSeason = Utils.getStringFromUser();
@@ -131,18 +106,6 @@ public class Main {
 
 
     public static void main(String[] args) {
-
-        /*
-        String indicationSeason = Utils.getStringFromUser();
-        double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        Utils.getDoubleFromUser(indication);
-
-        ScoresList waterTest = new ScoresList(indicationSeason, indication);
-        waterTest.printScores();
-
-        waterTest.writeReadingsToFile();
-        Files.readFile();
-         */
 
         MainMenu start = new MainMenu();
         start.printWelcome();
