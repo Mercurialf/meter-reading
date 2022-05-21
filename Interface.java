@@ -8,6 +8,7 @@ public class Interface {
     JLabel[] indicationName = new JLabel[8];
     JTextField[] indicationValue = new JTextField[8];
     JButton[] mainMenuButton = new JButton[6];
+    Main.ScoresList indicationList;
 
     Interface() {
 
@@ -50,19 +51,42 @@ public class Interface {
             mainMenuButton[i] = new JButton(Config.mainMenuOptions[i]);
         }
 
+        JTextArea outputTextField = new JTextArea();
+        outputTextField.setBounds(10, 270, 660, 200);
+        outputTextField.setEditable(false);
+        outputTextField.setFont(Config.standardFont);
+        Border border = BorderFactory.createLineBorder(Color.BLACK);
+        outputTextField.setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
         mainMenuButton[0].setBounds(470, 10, 200, 35);
+        mainMenuButton[0].addActionListener(e -> {
+            double[] indication = new double[8];
+            String indicationSeason = titleTextField.getText();
+            for (int i = 0; i < 8; i++) {
+                indication[i] = Double.parseDouble(indicationValue[i].getText());
+            }
+            indicationList = new Main.ScoresList(indicationSeason, indication);
+            outputTextField.setText("Testimony taken!");
+        });
+
         mainMenuButton[1].setBounds(470, 50, 200, 35);
+        mainMenuButton[1].addActionListener(e -> {
+            outputTextField.setText(indicationList.monthOfReceipt + "\n" +
+                    Config.titlesOfScoresText[0] + indicationList.titlesOfScoresValue[0] + "\n" +
+                    Config.titlesOfScoresText[1] + indicationList.titlesOfScoresValue[1] + "\n" +
+                    Config.titlesOfScoresText[2] + indicationList.titlesOfScoresValue[2] + "\n" +
+                    Config.titlesOfScoresText[3] + indicationList.titlesOfScoresValue[3] + "\n" +
+                    Config.titlesOfScoresText[4] + indicationList.titlesOfScoresValue[4] + "\n" +
+                    Config.titlesOfScoresText[5] + indicationList.titlesOfScoresValue[5] + "\n" +
+                    Config.titlesOfScoresText[6] + indicationList.titlesOfScoresValue[6] + "\n" +
+                    Config.titlesOfScoresText[7] + indicationList.titlesOfScoresValue[7] + "\n" );
+        });
+
         mainMenuButton[2].setBounds(470,90, 200, 35);
         mainMenuButton[3].setBounds(470, 130, 200, 35);
         mainMenuButton[4].setBounds(470,170,200, 35);
         mainMenuButton[5].setBounds(470, 210, 200, 35);
-
-        JTextArea outputTextField = new JTextArea();
-        outputTextField.setBounds(10, 270, 660, 200);
-        outputTextField.setEditable(false);
-        Border border = BorderFactory.createLineBorder(Color.BLACK);
-        outputTextField.setBorder(BorderFactory.createCompoundBorder(border,
-                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 
         frame.add(titleLabel);
