@@ -1,27 +1,27 @@
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 
 public class Interface {
     JFrame frame = new JFrame("Meter Reading");
-    Font titleFont = new Font("Dialog", Font.PLAIN,18);
-    Font standardFont = new Font("Dialog", Font.PLAIN, 16);
-    JLabel[] indicationName = new JLabel[7];
-    JTextField[] indicationValue = new JTextField[7];
+    JLabel[] indicationName = new JLabel[8];
+    JTextField[] indicationValue = new JTextField[8];
     JButton[] mainMenuButton = new JButton[6];
 
     Interface() {
 
         JLabel titleLabel = new JLabel("Enter Month Name/Year: ");
         titleLabel.setBounds(10, 10, 300, 25);
-        titleLabel.setFont(titleFont);
+        titleLabel.setFont(Config.titleFont);
         JTextField titleTextField = new JTextField();
-        titleTextField.setBounds(350, 10, 150, 25);
-        titleTextField.setFont(standardFont);
+        titleTextField.setBounds(300, 10, 150, 25);
+        titleTextField.setFont(Config.standardFont);
 
 
         for (int i = 0; i < indicationName.length; i++) {
             indicationName[i] = new JLabel(Config.titlesOfScoresText[i]);
-            indicationName[i].setFont(standardFont);
+            indicationName[i].setFont(Config.standardFont);
         }
         indicationName[0].setBounds(10, 50, 300, 25);
         indicationName[1].setBounds(10, 75, 300, 25);
@@ -30,34 +30,44 @@ public class Interface {
         indicationName[4].setBounds(10, 150, 300, 25);
         indicationName[5].setBounds(10, 175, 300, 25);
         indicationName[6].setBounds(10, 200, 300, 25);
+        indicationName[7].setBounds(10, 225,300, 25);
 
         for (int i = 0; i < indicationValue.length; i++) {
             indicationValue[i] = new JTextField();
-            indicationValue[i].setFont(standardFont);
+            indicationValue[i].setFont(Config.standardFont);
         }
 
-        indicationValue[0].setBounds(350, 50, 150, 25);
-        indicationValue[1].setBounds(350, 75, 150, 25);
-        indicationValue[2].setBounds(350, 100, 150, 25);
-        indicationValue[3].setBounds(350, 125, 150, 25);
-        indicationValue[4].setBounds(350, 150, 150, 25);
-        indicationValue[5].setBounds(350, 175, 150, 25);
-        indicationValue[6].setBounds(350, 200, 150, 25);
+        indicationValue[0].setBounds(300, 50, 150, 25);
+        indicationValue[1].setBounds(300, 75, 150, 25);
+        indicationValue[2].setBounds(300, 100, 150, 25);
+        indicationValue[3].setBounds(300, 125, 150, 25);
+        indicationValue[4].setBounds(300, 150, 150, 25);
+        indicationValue[5].setBounds(300, 175, 150, 25);
+        indicationValue[6].setBounds(300, 200, 150, 25);
+        indicationValue[7].setBounds(300, 225, 150, 25);
 
         for (int i = 0; i < mainMenuButton.length; i++) {
             mainMenuButton[i] = new JButton(Config.mainMenuOptions[i]);
         }
 
-        mainMenuButton[0].setBounds(505, 10, 160, 30);
-        mainMenuButton[1].setBounds(505, 45, 160, 30);
-        mainMenuButton[2].setBounds(505,80, 160, 30);
-        mainMenuButton[3].setBounds(505, 115, 160, 30);
-        mainMenuButton[4].setBounds(505,150,160, 30);
-        mainMenuButton[5].setBounds(505, 195, 160, 40);
+        mainMenuButton[0].setBounds(470, 10, 200, 35);
+        mainMenuButton[1].setBounds(470, 50, 200, 35);
+        mainMenuButton[2].setBounds(470,90, 200, 35);
+        mainMenuButton[3].setBounds(470, 130, 200, 35);
+        mainMenuButton[4].setBounds(470,170,200, 35);
+        mainMenuButton[5].setBounds(470, 210, 200, 35);
+
+        JTextArea outputTextField = new JTextArea();
+        outputTextField.setBounds(10, 270, 660, 200);
+        outputTextField.setEditable(false);
+        Border border = BorderFactory.createLineBorder(Color.BLACK);
+        outputTextField.setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 
         frame.add(titleLabel);
         frame.add(titleTextField);
+        frame.add(outputTextField);
 
         for (JLabel jLabel : indicationName) {
             frame.add(jLabel);
@@ -74,7 +84,7 @@ public class Interface {
         frame.add(mainMenuButton[4]);
         frame.add(mainMenuButton[5]);
 
-        frame.setSize(800, 600);
+        frame.setSize(695, 520);
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
