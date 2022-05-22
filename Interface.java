@@ -8,7 +8,7 @@ public class Interface {
     JLabel[] indicationName = new JLabel[8];
     JTextField[] indicationValue = new JTextField[8];
     JButton[] mainMenuButton = new JButton[6];
-    Main.ScoresList indicationList;
+    Testimony.ScoresList indicationList;
 
     Interface() {
 
@@ -85,7 +85,7 @@ public class Interface {
             for (int i = 0; i < 8; i++) {
                 indication[i] = Double.parseDouble(indicationValue[i].getText());
             }
-            indicationList = new Main.ScoresList(indicationSeason, indication);
+            indicationList = new Testimony.ScoresList(indicationSeason, indication);
             outputTextField.setText("Testimony taken!");
         });
 
@@ -102,7 +102,7 @@ public class Interface {
 
         mainMenuButton[2].setBounds(470,90, 200, 35);
         mainMenuButton[2].addActionListener(e -> outputTextField.setText
-                (String.valueOf(indicationList.totalScoreCorrectTest())));
+                ("Correct test result: " + indicationList.totalScoreCorrectTest()));
 
         mainMenuButton[3].setBounds(470, 130, 200, 35);
         mainMenuButton[3].addActionListener(e -> differenceTestimonyValue.setText(indicationList.tariffCalculation(
