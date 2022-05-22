@@ -52,12 +52,31 @@ public class Interface {
         }
 
         JTextArea outputTextField = new JTextArea();
-        outputTextField.setBounds(10, 270, 660, 200);
+        outputTextField.setBounds(10, 270, 440, 200);
         outputTextField.setEditable(false);
         outputTextField.setFont(Config.standardFont);
         Border border = BorderFactory.createLineBorder(Color.BLACK);
         outputTextField.setBorder(BorderFactory.createCompoundBorder(border,
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
+        JLabel newTestimony = new JLabel("New Testimony:");
+        newTestimony.setBounds(470, 270, 150, 25);
+        JLabel oldTestimony = new JLabel("Old Testimony:");
+        oldTestimony.setBounds(470, 320, 150, 25);
+        JLabel differenceTestimony = new JLabel("Difference:");
+        differenceTestimony.setBounds(470, 370, 150, 25);
+
+        JTextField newTestimonyValue = new JTextField();
+        newTestimonyValue.setBounds(470, 295, 150, 25);
+        JTextField oldTestimonyValue = new JTextField();
+        oldTestimonyValue.setBounds(470, 345, 150, 25);
+        JTextField differenceTestimonyValue = new JTextField();
+        differenceTestimonyValue.setBounds(470, 395, 150, 25);
+        differenceTestimonyValue.setEditable(false);
+
+
+
+
 
         mainMenuButton[0].setBounds(470, 10, 200, 35);
         mainMenuButton[0].addActionListener(e -> {
@@ -84,6 +103,10 @@ public class Interface {
         });
 
         mainMenuButton[2].setBounds(470,90, 200, 35);
+        mainMenuButton[2].addActionListener(e -> {
+            outputTextField.setText(String.valueOf(indicationList.totalScoreCorrectTest()));
+        });
+
         mainMenuButton[3].setBounds(470, 130, 200, 35);
         mainMenuButton[4].setBounds(470,170,200, 35);
         mainMenuButton[5].setBounds(470, 210, 200, 35);
@@ -92,6 +115,13 @@ public class Interface {
         frame.add(titleLabel);
         frame.add(titleTextField);
         frame.add(outputTextField);
+
+        frame.add(newTestimony);
+        frame.add(oldTestimony);
+        frame.add(newTestimonyValue);
+        frame.add(oldTestimonyValue);
+        frame.add(differenceTestimony);
+        frame.add(differenceTestimonyValue);
 
         for (JLabel jLabel : indicationName) {
             frame.add(jLabel);
