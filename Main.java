@@ -18,20 +18,19 @@ public class Main {
             this.titlesOfScoresValue = payslipList;
         }
 
-        public void tariffCalculation(int oldIndication, int newIndication) {
+        public String tariffCalculation(int oldIndication, int newIndication) {
 
-            String correctTariffFormat = "%s%n%-40s%20.2f%n%s%n";
             double minimumTariff = 250.00;
             double result = newIndication - oldIndication;
 
             if (result < minimumTariff) {
-                System.out.printf(correctTariffFormat, repeatChar, "Tariff result: " , (result * 1.44), repeatChar);
+                result *= 1.44;
             } else if (result > minimumTariff) {
                 double firstTariff= 250.0;
                 result -= 250.00;
-                System.out.printf(correctTariffFormat, repeatChar, "Tariff result: ",
-                        ((firstTariff * 1.44) + (result * 1.68)), repeatChar);
+                result = (firstTariff * 1.44) + (result * 1.68);
             }
+            return String.valueOf(result);
         }
 
         public double totalScoreCorrectTest() {
@@ -69,47 +68,5 @@ public class Main {
         public void writeReadingsToFile () {
             Files.createFile(monthOfReceipt, titlesOfScoresValue);
         }
-    }
-
-    public static class MainMenu {
-        String repeatChar = Utils.repeatString("-", 60);
-        int choice = 0;
-        ScoresList water;
-
-        public void printWelcome() {
-
-            System.out.println(repeatChar + "\nWelcome to Meter Reading!\n" + repeatChar);
-            while (choice != 9) {
-
-                System.out.println(repeatChar);
-                for (int i = 0; i < Config.mainMenuOptions.length; i++) {
-                    System.out.println(Config.mainMenuOptions[i] + " : " + i);
-                }
-
-                choice = Utils.getIntegerFromUser();
-
-                switch (choice) {
-                    case 1 -> {
-                        String indicationSeason = Utils.getStringFromUser();
-                        double[] indication = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-                        Utils.getDoubleFromUser(indication);
-                        water = new ScoresList(indicationSeason, indication);
-                    }
-                    case 2 -> water.printScores();
-                    case 3 -> water.totalScoreCorrectTest();
-                    case 4 -> water.tariffCalculation(0, 0);
-                    case 5 -> water.writeReadingsToFile();
-                    case 6 -> Files.readFile();
-                }
-            }
-        }
-    }
-
-
-    public static void main(String[] args) {
-
-        MainMenu start = new MainMenu();
-        start.printWelcome();
-
     }
 }
