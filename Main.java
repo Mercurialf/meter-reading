@@ -34,10 +34,10 @@ public class Main {
             }
         }
 
-        public void totalScoreCorrectTest() {
+        public double totalScoreCorrectTest() {
 
             String correctTestFormat = "%s%n%-40s%20.2f%n%-40s%20.2f%n%-40s%n";
-            double result;
+            double result = 0;
 
             if (this.recalculation >= 0) {
                 result = (beginningOfThePeriod + subscriptionServices + accrued + recalculation +
@@ -50,6 +50,7 @@ public class Main {
                 System.out.printf(correctTestFormat, repeatChar, "In total you have to pay: ",
                         result, "On the receipt: ", toBePaid, repeatChar);
             }
+            return result;
         }
 
         public void printScores() {
