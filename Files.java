@@ -10,7 +10,7 @@ public class Files {
                 if (i == 0) {
                     file.write(title + "\n");
                 }
-                file.write(Config.titlesOfScoresText[i] + " : " + indication[i] + "\n");
+                file.write(Config.titlesOfScoresText[i] + " " + indication[i] + "\n");
             }
             path = title;
         }
@@ -19,16 +19,19 @@ public class Files {
         }
     }
 
-    public static void readFile() {
+    public static String readFile() {
+        StringBuilder result = new StringBuilder();
         try (FileReader file = new FileReader("Indication/" + path + ".txt")) {
             Scanner scan = new Scanner(file);
 
             while (scan.hasNextLine()) {
-                System.out.println(scan.nextLine());
+                result.append(scan.nextLine()).append("\n");
             }
+            return result.toString();
         }
         catch(IOException ex) {
             System.out.println(ex.getMessage());
         }
+        return result.toString();
     }
 }
