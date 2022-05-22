@@ -90,26 +90,33 @@ public class Interface {
         });
 
         mainMenuButton[1].setBounds(470, 50, 200, 35);
-        mainMenuButton[1].addActionListener(e -> {
-            outputTextField.setText(indicationList.monthOfReceipt + "\n" +
-                    Config.titlesOfScoresText[0] + indicationList.titlesOfScoresValue[0] + "\n" +
-                    Config.titlesOfScoresText[1] + indicationList.titlesOfScoresValue[1] + "\n" +
-                    Config.titlesOfScoresText[2] + indicationList.titlesOfScoresValue[2] + "\n" +
-                    Config.titlesOfScoresText[3] + indicationList.titlesOfScoresValue[3] + "\n" +
-                    Config.titlesOfScoresText[4] + indicationList.titlesOfScoresValue[4] + "\n" +
-                    Config.titlesOfScoresText[5] + indicationList.titlesOfScoresValue[5] + "\n" +
-                    Config.titlesOfScoresText[6] + indicationList.titlesOfScoresValue[6] + "\n" +
-                    Config.titlesOfScoresText[7] + indicationList.titlesOfScoresValue[7] + "\n" );
-        });
+        mainMenuButton[1].addActionListener(e -> outputTextField.setText(indicationList.monthOfReceipt + "\n" +
+                Config.titlesOfScoresText[0] + indicationList.titlesOfScoresValue[0] + "\n" +
+                Config.titlesOfScoresText[1] + indicationList.titlesOfScoresValue[1] + "\n" +
+                Config.titlesOfScoresText[2] + indicationList.titlesOfScoresValue[2] + "\n" +
+                Config.titlesOfScoresText[3] + indicationList.titlesOfScoresValue[3] + "\n" +
+                Config.titlesOfScoresText[4] + indicationList.titlesOfScoresValue[4] + "\n" +
+                Config.titlesOfScoresText[5] + indicationList.titlesOfScoresValue[5] + "\n" +
+                Config.titlesOfScoresText[6] + indicationList.titlesOfScoresValue[6] + "\n" +
+                Config.titlesOfScoresText[7] + indicationList.titlesOfScoresValue[7] + "\n" ));
 
         mainMenuButton[2].setBounds(470,90, 200, 35);
-        mainMenuButton[2].addActionListener(e -> {
-            outputTextField.setText(String.valueOf(indicationList.totalScoreCorrectTest()));
-        });
+        mainMenuButton[2].addActionListener(e -> outputTextField.setText
+                (String.valueOf(indicationList.totalScoreCorrectTest())));
 
         mainMenuButton[3].setBounds(470, 130, 200, 35);
+        mainMenuButton[3].addActionListener(e -> differenceTestimonyValue.setText(indicationList.tariffCalculation(
+                Integer.parseInt(oldTestimonyValue.getText()),
+                Integer.parseInt(newTestimonyValue.getText()))));
+
         mainMenuButton[4].setBounds(470,170,200, 35);
+        mainMenuButton[4].addActionListener(e -> {
+            indicationList.writeReadingsToFile();
+            outputTextField.setText("Readings successfully written to file.");
+        });
+
         mainMenuButton[5].setBounds(470, 210, 200, 35);
+        mainMenuButton[5].addActionListener(e -> outputTextField.setText(Files.readFile()));
 
 
         frame.add(titleLabel);
