@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Files {
     static String path = "";
     public static void createFile(String title, double[] indication) {
-        try (FileWriter file = new FileWriter("Indication/" + title + ".txt", true)) {
+        try (FileWriter file = new FileWriter("indication/" + title + ".txt", true)) {
             for (int i = 0; i < 8; i++) {
                 if (i == 0) {
                     file.write(title + "\n");
@@ -21,7 +21,7 @@ public class Files {
 
     public static String readFile() {
         StringBuilder result = new StringBuilder();
-        try (FileReader file = new FileReader("Indication/" + path + ".txt")) {
+        try (FileReader file = new FileReader("indication/" + path + ".txt")) {
             Scanner scan = new Scanner(file);
 
             while (scan.hasNextLine()) {
