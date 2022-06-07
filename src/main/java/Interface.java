@@ -12,12 +12,15 @@ public class Interface {
 
     Interface() {
 
+        frame.getContentPane().setBackground(new Color(0xEAD3CB));
+
         JLabel titleLabel = new JLabel("Enter Month Name/Year: ");
         titleLabel.setBounds(10, 10, 300, 25);
         titleLabel.setFont(Config.titleFont);
         JTextField titleTextField = new JTextField();
         titleTextField.setBounds(300, 10, 150, 25);
         titleTextField.setFont(Config.standardFont);
+        titleTextField.setText("Default date");
 
 
         for (int i = 0; i < indicationName.length; i++) {
@@ -36,6 +39,7 @@ public class Interface {
         for (int i = 0; i < indicationValue.length; i++) {
             indicationValue[i] = new JTextField();
             indicationValue[i].setFont(Config.standardFont);
+            indicationValue[i].setText("0.0");
         }
 
         indicationValue[0].setBounds(300, 50, 150, 25);
@@ -49,6 +53,10 @@ public class Interface {
 
         for (int i = 0; i < mainMenuButton.length; i++) {
             mainMenuButton[i] = new JButton(Config.mainMenuOptions[i]);
+            mainMenuButton[i].setEnabled(false);
+            if (i == 0) {
+                mainMenuButton[i].setEnabled(true);
+            }
         }
 
         JTextArea outputTextField = new JTextArea();
@@ -68,15 +76,13 @@ public class Interface {
 
         JTextField newTestimonyValue = new JTextField();
         newTestimonyValue.setBounds(470, 295, 150, 25);
+        newTestimonyValue.setText("0");
         JTextField oldTestimonyValue = new JTextField();
         oldTestimonyValue.setBounds(470, 345, 150, 25);
+        oldTestimonyValue.setText("0");
         JTextField differenceTestimonyValue = new JTextField();
         differenceTestimonyValue.setBounds(470, 395, 150, 25);
         differenceTestimonyValue.setEditable(false);
-
-
-
-
 
         mainMenuButton[0].setBounds(470, 10, 200, 35);
         mainMenuButton[0].addActionListener(e -> {
@@ -87,18 +93,21 @@ public class Interface {
             }
             indicationList = new Testimony.ScoresList(indicationSeason, indication);
             outputTextField.setText("Testimony taken!");
+
+            for (JButton jButton : mainMenuButton) {
+                jButton.setEnabled(true);
+            }
         });
 
         mainMenuButton[1].setBounds(470, 50, 200, 35);
-        mainMenuButton[1].addActionListener(e -> outputTextField.setText(indicationList.monthOfReceipt + "\n" +
-                Config.titlesOfScoresText[0] + indicationList.titlesOfScoresValue[0] + "\n" +
-                Config.titlesOfScoresText[1] + indicationList.titlesOfScoresValue[1] + "\n" +
-                Config.titlesOfScoresText[2] + indicationList.titlesOfScoresValue[2] + "\n" +
-                Config.titlesOfScoresText[3] + indicationList.titlesOfScoresValue[3] + "\n" +
-                Config.titlesOfScoresText[4] + indicationList.titlesOfScoresValue[4] + "\n" +
-                Config.titlesOfScoresText[5] + indicationList.titlesOfScoresValue[5] + "\n" +
-                Config.titlesOfScoresText[6] + indicationList.titlesOfScoresValue[6] + "\n" +
-                Config.titlesOfScoresText[7] + indicationList.titlesOfScoresValue[7] + "\n" ));
+        mainMenuButton[1].addActionListener(e -> {
+            for (int i = 0; i < 8; i++){
+                if (i == 0) {
+                    outputTextField.setText(indicationList.monthOfReceipt + "\n");
+                }
+                outputTextField.append(Config.titlesOfScoresText[i] + indicationList.titlesOfScoresValue[i] + "\n");
+            }
+        });
 
         mainMenuButton[2].setBounds(470,90, 200, 35);
         mainMenuButton[2].addActionListener(e -> outputTextField.setText

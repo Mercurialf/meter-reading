@@ -5,7 +5,7 @@ public class Testimony {
                 recalculation, compensation, penaltyCosts, toBePaid;
         double[] titlesOfScoresValue;
 
-        public ScoresList (String month, double[] payslipList) {
+        public ScoresList(String month, double[] payslipList) {
             this.monthOfReceipt = month;
             this.beginningOfThePeriod = payslipList[0];
             this.paid = payslipList[1];
@@ -26,7 +26,7 @@ public class Testimony {
             if (result < minimumTariff) {
                 result *= 1.44;
             } else if (result > minimumTariff) {
-                double firstTariff= 250.0;
+                double firstTariff = 250.0;
                 result -= 250.00;
                 result = (firstTariff * 1.44) + (result * 1.68);
             }
@@ -39,7 +39,7 @@ public class Testimony {
 
             if (this.recalculation >= 0) {
                 result = (beginningOfThePeriod + subscriptionServices + accrued + recalculation +
-                                compensation + penaltyCosts) - paid;
+                        compensation + penaltyCosts) - paid;
             } else if (this.recalculation <= 0) {
                 result = (beginningOfThePeriod + subscriptionServices + accrued + compensation +
                         penaltyCosts - recalculation) - paid;
@@ -47,7 +47,7 @@ public class Testimony {
             return result;
         }
 
-        public void writeReadingsToFile () {
+        public void writeReadingsToFile() {
             Files.createFile(monthOfReceipt, titlesOfScoresValue);
         }
     }
