@@ -12,7 +12,7 @@ public class Interface {
 
     Interface() {
 
-        frame.getContentPane().setBackground(new Color(0xEAD3CB));
+        frame.getContentPane().setBackground(new Color(0xF4DED6));
 
         JLabel titleLabel = new JLabel("Enter Month Name/Year: ");
         titleLabel.setBounds(10, 10, 300, 25);
@@ -67,21 +67,25 @@ public class Interface {
         outputTextField.setBorder(BorderFactory.createCompoundBorder(border,
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
+        String[] services = {"Water", "Electricity", "Gas"};
+        final JComboBox<String> comboBox = new JComboBox<>(services);
+        comboBox.setBounds(470, 270, 200, 25);
+
         JLabel newTestimony = new JLabel("New Testimony:");
-        newTestimony.setBounds(470, 270, 150, 25);
+        newTestimony.setBounds(470, 310, 150, 25);
         JLabel oldTestimony = new JLabel("Old Testimony:");
-        oldTestimony.setBounds(470, 320, 150, 25);
+        oldTestimony.setBounds(470, 360, 150, 25);
         JLabel differenceTestimony = new JLabel("Difference:");
-        differenceTestimony.setBounds(470, 370, 150, 25);
+        differenceTestimony.setBounds(470, 420, 150, 25);
 
         JTextField newTestimonyValue = new JTextField();
-        newTestimonyValue.setBounds(470, 295, 150, 25);
+        newTestimonyValue.setBounds(470, 335, 200, 25);
         newTestimonyValue.setText("0");
         JTextField oldTestimonyValue = new JTextField();
-        oldTestimonyValue.setBounds(470, 345, 150, 25);
+        oldTestimonyValue.setBounds(470, 385, 200, 25);
         oldTestimonyValue.setText("0");
         JTextField differenceTestimonyValue = new JTextField();
-        differenceTestimonyValue.setBounds(470, 395, 150, 25);
+        differenceTestimonyValue.setBounds(470, 445, 200, 25);
         differenceTestimonyValue.setEditable(false);
 
         mainMenuButton[0].setBounds(470, 10, 200, 35);
@@ -132,6 +136,7 @@ public class Interface {
         frame.add(titleTextField);
         frame.add(outputTextField);
 
+        frame.add(comboBox);
         frame.add(newTestimony);
         frame.add(oldTestimony);
         frame.add(newTestimonyValue);
