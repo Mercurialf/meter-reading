@@ -18,7 +18,7 @@ public class Testimony {
             this.titlesOfScoresValue = payslipList;
         }
 
-        public String tariffCalculation(int oldIndication, int newIndication) {
+        private String tariffCalculation(int oldIndication, int newIndication) {
 
             double minimumTariff = 250.00;
             double result = newIndication - oldIndication;
@@ -49,6 +49,28 @@ public class Testimony {
 
         public void writeReadingsToFile() {
             Files.createFile(monthOfReceipt, titlesOfScoresValue);
+        }
+    }
+
+    public static class WaterScoresList extends ScoresList {
+
+        public WaterScoresList(String month, double[] payslipList) {
+            super(month, payslipList);
+        }
+
+        public String tariffCalculation(int oldIndication, int newIndication) {
+
+            double minimumTariff = 250.00;
+            double result = newIndication - oldIndication;
+
+            if (result < minimumTariff) {
+                result *= 1.44;
+            } else if (result > minimumTariff) {
+                double firstTariff = 250.0;
+                result -= 250.00;
+                result = (firstTariff * 1.44) + (result * 1.68);
+            }
+            return String.valueOf(result);
         }
     }
 }

@@ -8,7 +8,7 @@ public class Interface {
     JLabel[] indicationName = new JLabel[8];
     JTextField[] indicationValue = new JTextField[8];
     JButton[] mainMenuButton = new JButton[6];
-    Testimony.ScoresList indicationList;
+    Testimony.WaterScoresList indicationList;
 
     Interface() {
 
@@ -95,7 +95,7 @@ public class Interface {
             for (int i = 0; i < 8; i++) {
                 indication[i] = Double.parseDouble(indicationValue[i].getText());
             }
-            indicationList = new Testimony.ScoresList(indicationSeason, indication);
+            indicationList = new Testimony.WaterScoresList(indicationSeason, indication);
             outputTextField.setText("Testimony taken!");
 
             for (JButton jButton : mainMenuButton) {
