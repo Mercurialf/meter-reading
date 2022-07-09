@@ -13,7 +13,7 @@ public class AppFrame extends JFrame implements ActionListener {
     JMenuItem saveItem;
     JMenuItem exitItem;
     AppFrame(){
-        this.add(new InnerContentFrame());
+        this.add(new ContentFrame());
 
         this.setPreferredSize(new Dimension(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT));
         this.setTitle("Meter Reading");
