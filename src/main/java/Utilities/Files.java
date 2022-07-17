@@ -1,3 +1,7 @@
+package Utilities;
+
+import Utilities.Config;
+
 import java.io.*;
 import java.io.FileWriter;
 import java.util.Scanner;
