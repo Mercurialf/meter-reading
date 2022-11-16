@@ -1,58 +1,57 @@
 import Utilities.Config;
-import Utilities.Files;
 
 import javax.swing.*;
-import java.awt.*;
-import javax.swing.BorderFactory;
 import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Interface {
-    JFrame frame = new JFrame("Meter Reading");
-    JLabel[] indicationName = new JLabel[8];
-    JTextField[] indicationValue = new JTextField[8];
-    JButton[] mainMenuButton = new JButton[6];
-    Testimony.WaterScoresList indicationList;
+    private final JFrame frame;
+    private final JLabel[] indicationName = new JLabel[8];
+    private final JTextField[] indicationValue = new JTextField[8];
+    private final JButton[] mainMenuButton = new JButton[6];
+    private final JComboBox<String> comboBox;
+    private final JTextField titleTextField;
+    private final JTextField newTestimonyValue;
+    private final JTextField oldTestimonyValue;
+    private final JTextField differenceTestimonyValue;
+    private final JTextArea outputTextField;
+    private Testimony testimony;
 
-    Interface() {
 
-        frame.getContentPane().setBackground(new Color(0xF4DED6));
+    public Interface() {
+        frame = new JFrame("Meter Reading");
+        frame.getContentPane().setBackground(new Color(Config.mainBackgroundColor));
 
-        JLabel titleLabel = new JLabel("Enter Month Name/Year: ");
-        titleLabel.setBounds(10, 10, 300, 25);
-        titleLabel.setFont(Config.titleFont);
-        JTextField titleTextField = new JTextField();
-        titleTextField.setBounds(300, 10, 150, 25);
-        titleTextField.setFont(Config.standardFont);
-        titleTextField.setText("Default date");
+        {
+            JLabel titleLabel = new JLabel("Enter Month Name/Year: ");
+            titleLabel.setBounds(10, 10, 300, 25);
+            titleLabel.setFont(Config.titleFont);
+            frame.add(titleLabel);
+        }
 
+        {
+            titleTextField = new JTextField();
+            titleTextField.setBounds(300, 10, 150, 25);
+            titleTextField.setFont(Config.standardFont);
+            titleTextField.setText("Default date");
+            frame.add(titleTextField);
+        }
 
         for (int i = 0; i < indicationName.length; i++) {
-            indicationName[i] = new JLabel(Config.titlesOfScoresText[i]);
+            indicationName[i] = new JLabel(Config.SCORES_NAME[i]);
             indicationName[i].setFont(Config.standardFont);
+            indicationName[i].setBounds(10, Config.coordinatesIndication[i], 300, 25);
+            frame.add(indicationName[i]);
         }
-        indicationName[0].setBounds(10, 50, 300, 25);
-        indicationName[1].setBounds(10, 75, 300, 25);
-        indicationName[2].setBounds(10, 100, 300, 25);
-        indicationName[3].setBounds(10, 125, 300, 25);
-        indicationName[4].setBounds(10, 150, 300, 25);
-        indicationName[5].setBounds(10, 175, 300, 25);
-        indicationName[6].setBounds(10, 200, 300, 25);
-        indicationName[7].setBounds(10, 225,300, 25);
 
         for (int i = 0; i < indicationValue.length; i++) {
-            indicationValue[i] = new JTextField();
+            indicationValue[i] = new JTextField("0.0");
             indicationValue[i].setFont(Config.standardFont);
-            indicationValue[i].setText("0.0");
+            indicationValue[i].setBounds(300, Config.coordinatesIndication[i], 150, 25);
+            frame.add(indicationValue[i]);
         }
-
-        indicationValue[0].setBounds(300, 50, 150, 25);
-        indicationValue[1].setBounds(300, 75, 150, 25);
-        indicationValue[2].setBounds(300, 100, 150, 25);
-        indicationValue[3].setBounds(300, 125, 150, 25);
-        indicationValue[4].setBounds(300, 150, 150, 25);
-        indicationValue[5].setBounds(300, 175, 150, 25);
-        indicationValue[6].setBounds(300, 200, 150, 25);
-        indicationValue[7].setBounds(300, 225, 150, 25);
 
         for (int i = 0; i < mainMenuButton.length; i++) {
             mainMenuButton[i] = new JButton(Config.mainMenuOptions[i]);
@@ -60,109 +59,65 @@ public class Interface {
             if (i == 0) {
                 mainMenuButton[i].setEnabled(true);
             }
+            mainMenuButton[i].setBounds(470, Config.coordinatesButton[i], 200, 35);
+            frame.add(mainMenuButton[i]);
         }
 
-        JTextArea outputTextField = new JTextArea();
-        outputTextField.setBounds(10, 270, 440, 200);
-        outputTextField.setEditable(false);
-        outputTextField.setFont(Config.standardFont);
-        Border border = BorderFactory.createLineBorder(Color.BLACK);
-        outputTextField.setBorder(BorderFactory.createCompoundBorder(border,
-                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        mainMenuButton[0].addActionListener(new MakeStatement());
+        mainMenuButton[1].addActionListener(new ShowReadings());
+        mainMenuButton[2].addActionListener(new ScoreCorrectTest());
+        mainMenuButton[3].addActionListener(new TariffCalculation());
+        mainMenuButton[4].addActionListener(new SaveNewFile());
+        mainMenuButton[5].addActionListener(new LoadOldFile());
 
-        String[] services = {"Water", "Electricity", "Gas"};
-        final JComboBox<String> comboBox = new JComboBox<>(services);
-        comboBox.setBounds(470, 270, 200, 25);
-
-        JLabel newTestimony = new JLabel("New Testimony:");
-        newTestimony.setBounds(470, 310, 150, 25);
-        JLabel oldTestimony = new JLabel("Old Testimony:");
-        oldTestimony.setBounds(470, 360, 150, 25);
-        JLabel differenceTestimony = new JLabel("Difference:");
-        differenceTestimony.setBounds(470, 420, 150, 25);
-
-        JTextField newTestimonyValue = new JTextField();
-        newTestimonyValue.setBounds(470, 335, 200, 25);
-        newTestimonyValue.setText("0");
-        JTextField oldTestimonyValue = new JTextField();
-        oldTestimonyValue.setBounds(470, 385, 200, 25);
-        oldTestimonyValue.setText("0");
-        JTextField differenceTestimonyValue = new JTextField();
-        differenceTestimonyValue.setBounds(470, 445, 200, 25);
-        differenceTestimonyValue.setEditable(false);
-
-        mainMenuButton[0].setBounds(470, 10, 200, 35);
-        mainMenuButton[0].addActionListener(e -> {
-            double[] indication = new double[8];
-            String indicationSeason = titleTextField.getText();
-            for (int i = 0; i < 8; i++) {
-                indication[i] = Double.parseDouble(indicationValue[i].getText());
-            }
-            indicationList = new Testimony.WaterScoresList(indicationSeason, indication);
-            outputTextField.setText("Testimony taken!");
-
-            for (JButton jButton : mainMenuButton) {
-                jButton.setEnabled(true);
-            }
-        });
-
-        mainMenuButton[1].setBounds(470, 50, 200, 35);
-        mainMenuButton[1].addActionListener(e -> {
-            for (int i = 0; i < 8; i++){
-                if (i == 0) {
-                    outputTextField.setText(indicationList.monthOfReceipt + "\n");
-                }
-                outputTextField.append(Config.titlesOfScoresText[i] + indicationList.titlesOfScoresValue[i] + "\n");
-            }
-        });
-
-        mainMenuButton[2].setBounds(470,90, 200, 35);
-        mainMenuButton[2].addActionListener(e -> outputTextField.setText
-                ("Correct test result: " + indicationList.totalScoreCorrectTest()));
-
-        mainMenuButton[3].setBounds(470, 130, 200, 35);
-        mainMenuButton[3].addActionListener(e -> differenceTestimonyValue.setText(indicationList.tariffCalculation(
-                Integer.parseInt(oldTestimonyValue.getText()),
-                Integer.parseInt(newTestimonyValue.getText()))));
-
-        mainMenuButton[4].setBounds(470,170,200, 35);
-        mainMenuButton[4].addActionListener(e -> {
-            indicationList.writeReadingsToFile();
-            outputTextField.setText("Readings successfully written to file.");
-        });
-
-        mainMenuButton[5].setBounds(470, 210, 200, 35);
-        mainMenuButton[5].addActionListener(e -> outputTextField.setText(Files.readFile()));
-
-
-        frame.add(titleLabel);
-        frame.add(titleTextField);
-        frame.add(outputTextField);
-
-        frame.add(comboBox);
-        frame.add(newTestimony);
-        frame.add(oldTestimony);
-        frame.add(newTestimonyValue);
-        frame.add(oldTestimonyValue);
-        frame.add(differenceTestimony);
-        frame.add(differenceTestimonyValue);
-
-        for (JLabel jLabel : indicationName) {
-            frame.add(jLabel);
+        {
+            outputTextField = new JTextArea();
+            outputTextField.setBounds(10, 270, 440, 200);
+            outputTextField.setEditable(false);
+            outputTextField.setFont(Config.standardFont);
+            Border border = BorderFactory.createLineBorder(Color.BLACK);
+            outputTextField.setBorder(BorderFactory.createCompoundBorder(border,
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+            frame.add(outputTextField);
         }
 
-        for (JTextField jTextField : indicationValue) {
-            frame.add(jTextField);
+        {
+            String[] services = {"Water", "Electricity", "Gas"};
+            comboBox = new JComboBox<>(services);
+            comboBox.setBounds(470, 270, 200, 25);
+            frame.add(comboBox);
         }
 
-        frame.add(mainMenuButton[0]);
-        frame.add(mainMenuButton[1]);
-        frame.add(mainMenuButton[2]);
-        frame.add(mainMenuButton[3]);
-        frame.add(mainMenuButton[4]);
-        frame.add(mainMenuButton[5]);
+        {
+            JLabel newTestimony = new JLabel("New Testimony:");
+            newTestimony.setBounds(470, 310, 150, 25);
+            frame.add(newTestimony);
 
-        frame.setSize(695, 520);
+            JLabel oldTestimony = new JLabel("Old Testimony:");
+            oldTestimony.setBounds(470, 360, 150, 25);
+            frame.add(oldTestimony);
+
+            JLabel differenceTestimony = new JLabel("Difference:");
+            differenceTestimony.setBounds(470, 420, 150, 25);
+            frame.add(differenceTestimony);
+        }
+
+        {
+            newTestimonyValue = new JTextField("0");
+            newTestimonyValue.setBounds(470, 335, 200, 25);
+            frame.add(newTestimonyValue);
+
+            oldTestimonyValue = new JTextField("0");
+            oldTestimonyValue.setBounds(470, 385, 200, 25);
+            frame.add(oldTestimonyValue);
+
+            differenceTestimonyValue = new JTextField("0");
+            differenceTestimonyValue.setBounds(470, 445, 200, 25);
+            differenceTestimonyValue.setEditable(false);
+            frame.add(differenceTestimonyValue);
+        }
+
+        frame.setSize(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -170,5 +125,66 @@ public class Interface {
 
     public static void main(String[] args) {
         new Interface();
+    }
+
+    class MakeStatement implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            double[] indication = new double[8];
+            String indicationSeason = titleTextField.getText();
+            int serviceSelection = comboBox.getSelectedIndex();
+            int newTestimony = Integer.parseInt(newTestimonyValue.getText());
+            int oldTestimony = Integer.parseInt(oldTestimonyValue.getText());
+
+            for (int i = 0; i < 8; i++) {
+                indication[i] = Double.parseDouble(indicationValue[i].getText());
+            }
+
+            switch (serviceSelection) {
+                case 0 -> testimony = new WaterScores(indicationSeason, indication, oldTestimony, newTestimony);
+                case 1 -> testimony = new LightScores(indicationSeason, indication, oldTestimony, newTestimony);
+                case 2 -> testimony = new GasScores(indicationSeason, indication, oldTestimony, newTestimony);
+            }
+
+            outputTextField.setText("Testimony taken!");
+
+            for (JButton jButton : mainMenuButton) {
+                jButton.setEnabled(true);
+            }
+        }
+    }
+
+    class ShowReadings implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            for (int i = 0; i < 8; i++) {
+                if (i == 0) {
+                    outputTextField.setText(testimony.getMonthOfReceipt() + "\n");
+                }
+                outputTextField.append(Config.SCORES_NAME[i] + testimony.getScores().get(Config.SCORES_NAME[i]) + "\n");
+            }
+        }
+    }
+
+    class TariffCalculation implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            differenceTestimonyValue.setText(String.valueOf(testimony.tariffCalculation()));
+        }
+    }
+
+    class ScoreCorrectTest implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            outputTextField.setText("Correct test result: " + testimony.totalScoreCorrectTest());
+        }
+    }
+
+    class SaveNewFile implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            FileManagement.SaveFile(testimony, outputTextField);
+        }
+    }
+
+    class LoadOldFile implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            FileManagement.LoadFile(outputTextField);
+        }
     }
 }

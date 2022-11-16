@@ -1,78 +1,128 @@
-import Utilities.Files;
+import Utilities.Config;
 
-public class Testimony {
-    public static class ScoresList {
-        String monthOfReceipt;
-        double beginningOfThePeriod, paid, subscriptionServices, accrued,
-                recalculation, compensation, penaltyCosts, toBePaid;
-        double[] titlesOfScoresValue;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 
-        public ScoresList(String month, double[] payslipList) {
-            this.monthOfReceipt = month;
-            this.beginningOfThePeriod = payslipList[0];
-            this.paid = payslipList[1];
-            this.subscriptionServices = payslipList[2];
-            this.accrued = payslipList[3];
-            this.recalculation = payslipList[4];
-            this.compensation = payslipList[5];
-            this.penaltyCosts = payslipList[6];
-            this.toBePaid = payslipList[7];
-            this.titlesOfScoresValue = payslipList;
-        }
+interface Tariff {
+    double tariffCalculation();
+}
 
-        private String tariffCalculation(int oldIndication, int newIndication) {
+public abstract class Testimony implements Tariff {
+    protected String monthOfReceipt;
+    protected HashMap<String, Double> scores = new HashMap<>();
+    protected HashMap<String, Double> indication = new HashMap<>();
 
-            double minimumTariff = 250.00;
-            double result = newIndication - oldIndication;
+    public Testimony(String monthOfReceipt, double[] scores, double oldIndication, double newIndication) {
 
-            if (result < minimumTariff) {
-                result *= 1.44;
-            } else if (result > minimumTariff) {
-                double firstTariff = 250.0;
-                result -= 250.00;
-                result = (firstTariff * 1.44) + (result * 1.68);
-            }
-            return String.valueOf(result);
-        }
+        setMonthOfReceipt(monthOfReceipt);
+        setScores(scores);
+        setIndication(oldIndication, newIndication);
+    }
 
-        public double totalScoreCorrectTest() {
+    public String getMonthOfReceipt() {
+        return monthOfReceipt;
+    }
 
-            double result = 0;
-
-            if (this.recalculation >= 0) {
-                result = (beginningOfThePeriod + subscriptionServices + accrued + recalculation +
-                        compensation + penaltyCosts) - paid;
-            } else if (this.recalculation <= 0) {
-                result = (beginningOfThePeriod + subscriptionServices + accrued + compensation +
-                        penaltyCosts - recalculation) - paid;
-            }
-            return result;
-        }
-
-        public void writeReadingsToFile() {
-            Files.createFile(monthOfReceipt, titlesOfScoresValue);
+    private void setMonthOfReceipt(String month) {
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy '@' HH:mm:ss");
+        if (!month.equals("")) {
+            monthOfReceipt = month + "|" + dateFormat.format(Calendar.getInstance().getTime());
+        } else {
+            monthOfReceipt = dateFormat.format(Calendar.getInstance().getTime());
         }
     }
 
-    public static class WaterScoresList extends ScoresList {
+    public HashMap<String, Double> getScores() {
+        return scores;
+    }
 
-        public WaterScoresList(String month, double[] payslipList) {
-            super(month, payslipList);
+    private void setScores(double[] scores) {
+        for (int i = 0; i < scores.length; i++) {
+            this.scores.put(Config.SCORES_NAME[i], scores[i]);
         }
+    }
 
-        public String tariffCalculation(int oldIndication, int newIndication) {
+    public HashMap<String, Double> getIndication() {
+        return indication;
+    }
 
-            double minimumTariff = 250.00;
-            double result = newIndication - oldIndication;
+    private void setIndication(double oldIndication, double newIndication) {
+        indication.put("Old Indication", oldIndication);
+        indication.put("New Indication", newIndication);
+    }
 
-            if (result < minimumTariff) {
-                result *= 1.44;
-            } else if (result > minimumTariff) {
-                double firstTariff = 250.0;
-                result -= 250.00;
-                result = (firstTariff * 1.44) + (result * 1.68);
-            }
-            return String.valueOf(result);
+    public double getDifferenceInIndications() {
+        double newIndication = indication.get("New Indication");
+        double oldIndication = indication.get("Old Indication");
+
+        if (newIndication > oldIndication) {
+            return (newIndication - oldIndication);
+        } else {
+            return 0;
         }
+    }
+
+    public double totalScoreCorrectTest() {
+        double result = 0;
+        if (scores.get("Recalculation") >= 0) {
+            result = ((scores.get("At the beginning of the period") + scores.get("Subscriber services") +
+                    scores.get("Accrued") + scores.get("Recalculation") + scores.get("Compensation") +
+                    scores.get("Penalty/Legal costs")) - scores.get("To be paid"));
+        }
+        if (scores.get("Recalculation") <= 0) {
+            result = (scores.get("At the beginning of the period") + scores.get("Subscriber services") +
+                    scores.get("Accrued") + scores.get("Compensation") + scores.get("Penalty/Legal costs")) -
+                    scores.get("Recalculation");
+            result -= scores.get("To be paid");
+        }
+        return result;
+    }
+}
+
+class LightScores extends Testimony {
+    public LightScores(String monthOfReceipt, double[] scores, int oldIndication, int newIndication) {
+        super(monthOfReceipt, scores, oldIndication, newIndication);
+    }
+
+    @Override
+    public double tariffCalculation() {
+        double minimumTariff = 250;
+        double result = getDifferenceInIndications();
+
+        if (result < minimumTariff) {
+            result *= 1.44;
+        }
+        if (result > minimumTariff) {
+            double firstTariff = 250;
+            result -= firstTariff;
+            result = (firstTariff * 1.44) + (result * 1.68);
+        }
+        return result;
+    }
+}
+
+class WaterScores extends Testimony {
+    public WaterScores(String monthOfReceipt, double[] scores, int oldIndication, int newIndication) {
+        super(monthOfReceipt, scores, oldIndication, newIndication);
+    }
+
+    @Override
+    public double tariffCalculation() {
+        double result = getDifferenceInIndications();
+        return ((result * 17.532) + (result * 16.512));
+    }
+}
+
+class GasScores extends Testimony {
+    public GasScores(String monthOfReceipt, double[] scores, int oldIndication, int newIndication) {
+        super(monthOfReceipt, scores, oldIndication, newIndication);
+    }
+
+    @Override
+    public double tariffCalculation() {
+        double result = getDifferenceInIndications();
+        return (result * 7.99);
     }
 }
