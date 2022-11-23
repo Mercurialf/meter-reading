@@ -1,4 +1,5 @@
 import Utilities.Config;
+import Indications.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -7,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Interface {
-    private final JFrame frame;
-    private final JLabel[] indicationName = new JLabel[8];
     private final JTextField[] indicationValue = new JTextField[8];
     private final JButton[] mainMenuButton = new JButton[6];
     private final JComboBox<String> comboBox;
@@ -21,7 +20,7 @@ public class Interface {
 
 
     public Interface() {
-        frame = new JFrame("Meter Reading");
+        JFrame frame = new JFrame("Meter Reading");
         frame.getContentPane().setBackground(new Color(Config.mainBackgroundColor));
 
         {
@@ -39,6 +38,7 @@ public class Interface {
             frame.add(titleTextField);
         }
 
+        JLabel[] indicationName = new JLabel[8];
         for (int i = 0; i < indicationName.length; i++) {
             indicationName[i] = new JLabel(Config.SCORES_NAME[i]);
             indicationName[i].setFont(Config.standardFont);
@@ -139,11 +139,9 @@ public class Interface {
                 indication[i] = Double.parseDouble(indicationValue[i].getText());
             }
 
-            switch (serviceSelection) {
-                case 0 -> testimony = new WaterScores(indicationSeason, indication, oldTestimony, newTestimony);
-                case 1 -> testimony = new LightScores(indicationSeason, indication, oldTestimony, newTestimony);
-                case 2 -> testimony = new GasScores(indicationSeason, indication, oldTestimony, newTestimony);
-            }
+            IndicationFactory indicationFactory = new IndicationFactory();
+            testimony = indicationFactory.createTestimony(serviceSelection, indicationSeason,
+                    indication, oldTestimony, newTestimony);
 
             outputTextField.setText("Testimony taken!");
 

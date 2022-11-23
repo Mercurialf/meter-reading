@@ -1,4 +1,5 @@
 import Utilities.Config;
+import Indications.*;
 
 import java.util.Scanner;
 import javax.swing.*;

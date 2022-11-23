@@ -1,3 +1,5 @@
+package Indications;
+
 import Utilities.Config;
 
 import java.text.DateFormat;
@@ -5,14 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
-interface Tariff {
-    double tariffCalculation();
-}
-
-public abstract class Testimony implements Tariff {
-    protected String monthOfReceipt;
-    protected HashMap<String, Double> scores = new HashMap<>();
-    protected HashMap<String, Double> indication = new HashMap<>();
+public abstract class Testimony implements Tariff{
+    public String monthOfReceipt;
+    public HashMap<String, Double> scores = new HashMap<>();
+    public HashMap<String, Double> indication = new HashMap<>();
 
     public Testimony(String monthOfReceipt, double[] scores, double oldIndication, double newIndication) {
 
@@ -78,51 +76,5 @@ public abstract class Testimony implements Tariff {
             result -= scores.get("To be paid");
         }
         return result;
-    }
-}
-
-class LightScores extends Testimony {
-    public LightScores(String monthOfReceipt, double[] scores, int oldIndication, int newIndication) {
-        super(monthOfReceipt, scores, oldIndication, newIndication);
-    }
-
-    @Override
-    public double tariffCalculation() {
-        double minimumTariff = 250;
-        double result = getDifferenceInIndications();
-
-        if (result < minimumTariff) {
-            result *= 1.44;
-        }
-        if (result > minimumTariff) {
-            double firstTariff = 250;
-            result -= firstTariff;
-            result = (firstTariff * 1.44) + (result * 1.68);
-        }
-        return result;
-    }
-}
-
-class WaterScores extends Testimony {
-    public WaterScores(String monthOfReceipt, double[] scores, int oldIndication, int newIndication) {
-        super(monthOfReceipt, scores, oldIndication, newIndication);
-    }
-
-    @Override
-    public double tariffCalculation() {
-        double result = getDifferenceInIndications();
-        return ((result * 17.532) + (result * 16.512));
-    }
-}
-
-class GasScores extends Testimony {
-    public GasScores(String monthOfReceipt, double[] scores, int oldIndication, int newIndication) {
-        super(monthOfReceipt, scores, oldIndication, newIndication);
-    }
-
-    @Override
-    public double tariffCalculation() {
-        double result = getDifferenceInIndications();
-        return (result * 7.99);
     }
 }
